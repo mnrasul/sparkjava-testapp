@@ -71,7 +71,6 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
                             <addClasspath>true</addClasspath>
                             <mainClass>ca.rasul.sparkjava.testapp.HelloWorld</mainClass>
                         </manifest>
