@@ -4,3 +4,7 @@ testapp.iml
 sparkjava-testapp.iml
 sparkjava-testapp.ipr
 sparkjava-testapp.iws
+devKeystore
+devcert.csr
+dev_rasul_ca.csr
+dev_rasul_ca.jks

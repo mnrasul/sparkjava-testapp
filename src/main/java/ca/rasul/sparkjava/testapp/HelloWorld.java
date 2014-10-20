@@ -5,6 +5,7 @@ import ca.rasul.sparkjava.testapp.controllers.UserController;
 import ca.rasul.sparkjava.testapp.filters.AuthenticationFilter;
 import ca.rasul.sparkjava.testapp.services.HelloService;
 import ca.rasul.sparkjava.testapp.services.UserService;
+import spark.Spark;
 
 ;import static spark.Spark.before;
 
@@ -17,6 +18,10 @@ import ca.rasul.sparkjava.testapp.services.UserService;
 public class HelloWorld {
 
     public static void main(String[] args) {
+        //setup keystore first : http://docs.oracle.com/cd/E19509-01/820-3503/ggfen/index.html
+        //set free CSR https://www.digicert.com/easy-csr/keytool.htm
+        Spark.setSecure("dev_rasul_ca.jks","development",null,null);
+
         UserService userService = new UserService();
         HelloService helloService = new HelloService();
 
