@@ -24,7 +24,9 @@ public class HelloController {
         Spark.get("/hello",new Route() {
             @Override
             public Object handle(Request request, Response response) {
+                request.session().attribute("blah","asd");
                 return helloService.sayHello();
+
             }
         }, new HelloMessageTransformer());
 

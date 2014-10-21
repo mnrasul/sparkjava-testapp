@@ -4,6 +4,7 @@ package ca.rasul.sparkjava.testapp.filters;
 import ca.rasul.sparkjava.testapp.UserSessionIdCache;
 import ca.rasul.sparkjava.testapp.services.UserService;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.http.ProtocolException;
 import org.apache.http.auth.AuthenticationException;
 import spark.Filter;
 import spark.Request;
@@ -24,17 +25,22 @@ public class AuthenticationFilter implements Filter {
     }
 
     @Override
-    public void handle(Request request, Response response) throws AuthenticationException {
+    public void handle(Request request, Response response) throws ProtocolException {
 
         if (!request.headers().contains(AUTHORIZATION)){
             throw new AuthenticationException();
         }
         final String authorizationHeader = request.headers(AUTHORIZATION);
-        byte[] pass = Base64.decodeBase64(authorizationHeader);
-        String x = new String(pass);
-        System.out.println(x);
-        String username = (String)request.params(":username");
-        String password = (String)request.params(":password");
+        if (authorizationHeader.indexOf("Basic ")< 0){
+            throw new ProtocolException();
+        }
+        //first index will contain an empty string, second contains username:password
+        String credentials[] = new String(Base64.decodeBase64(authorizationHeader.split("Basic ")[1])).split(":");
+        String username = credentials[0];
+        String password = credentials[1];
+        request.session().attribute("username",username);
+        request.session().attribute("username",password);
+
         if (userService.login(username, password)) {
             String sessionId = UserSessionIdCache.getInstance().get(username);
             Session session = null;
@@ -48,5 +54,8 @@ public class AuthenticationFilter implements Filter {
         }else{
             halt(401);
         }
+
+        System.out.println(String.format("username:%s - %s",username,password));
+
     }
 }

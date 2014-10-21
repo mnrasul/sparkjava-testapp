@@ -1,0 +1,9 @@
+Package: [[name]]
+Version: [[version]]
+Section: misc
+Priority: optional
+Architecture: all
+Depends: jdk (>= 1.8)
+Maintainer: Nasir Rasul <nasir@rasul.ca>
+Description: jetty java servlet container
+Distribution: development
